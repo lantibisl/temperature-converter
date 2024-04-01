@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Temperature Converter</string>
+    <string name="initial_unit">Initial Unit</string>
+    <string name="final_unit">Final Unit</string>
+    <string name="initial_value">Initial value</string>
+    <string name="celsius" translatable="false">Celsius</string>
+    <string name="reaumur" translatable="false">Reaumur</string>
+    <string name="kelvin" translatable="false">Kelvin</string>
+    <string name="fahrenheit" translatable="false">Fahrenheit</string>
 </resources>
