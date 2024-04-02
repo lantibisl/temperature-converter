@@ -8,7 +8,6 @@
     <string name="final_unit">Satuan akhir</string>
     <string name="invalid_input">Masukan tidak boleh kosong</string>
     <string name="convert">Konversikan</string>
-    <string name="final_value_x">Konversi dari %1$.2f %2$s ke %3$s adalah %4$.2f</string>
     <string name="share">Bagikan</string>
     <string name="back">Kembali</string>
     <string name="thermometer_logo">Logo termometer</string>

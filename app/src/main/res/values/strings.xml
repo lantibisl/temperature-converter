@@ -9,7 +9,7 @@
     <string name="fahrenheit" translatable="false">Fahrenheit</string>
     <string name="invalid_input">Input cannot be empty</string>
     <string name="convert">Convert</string>
-    <string name="final_value_x">The conversion from %1$.2f %2$s to %3$s is %4$.2f</string>
+    <string name="final_value_format" translatable="false">%1$.2f %2$s = %3$.2f %4$s</string>
     <string name="share">Share</string>
     <string name="about">About Application</string>
     <string name="copyright">Temperature Converter is an Android application that functions to convert one temperature unit to another.\n\nThis application was created for Mobile Programming 1 subject.\n\nCopyright © 2024 Lantib Islami\nAll right reserved.</string>

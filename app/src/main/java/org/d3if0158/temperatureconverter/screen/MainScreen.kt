@@ -54,6 +54,10 @@ import org.d3if0158.temperatureconverter.R
 import org.d3if0158.temperatureconverter.navigation.Screen
 import org.d3if0158.temperatureconverter.ui.theme.TemperatureConverterTheme
 
+val otherUnitOptions = listOf(
+    "° C", "° R", "K", "° F"
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavHostController) {
@@ -91,10 +95,6 @@ fun ScreenContent(modifier: Modifier) {
         stringResource(id = R.string.reaumur),
         stringResource(id = R.string.kelvin),
         stringResource(id = R.string.fahrenheit)
-    )
-
-    val otherUnitOptions = listOf(
-        "° C", "° R", "K", "° F"
     )
 
     val isExpanded1 = rememberSaveable {
@@ -206,11 +206,11 @@ fun ScreenContent(modifier: Modifier) {
             )
             Text(
                 text = stringResource(
-                    id = R.string.final_value_x,
+                    id = R.string.final_value_format,
                     initialValue.toFloat(),
-                    temperatureUnit1.value.lowercase(),
-                    temperatureUnit2.value.lowercase(),
-                    finalValue
+                    unitPicker(context, temperatureUnit1.value),
+                    finalValue,
+                    unitPicker(context, temperatureUnit2.value)
                 ),
                 style = MaterialTheme.typography.headlineLarge,
                 textAlign = TextAlign.Center
@@ -220,11 +220,11 @@ fun ScreenContent(modifier: Modifier) {
                     shareData(
                         context = context,
                         message = context.getString(
-                            R.string.final_value_x,
+                            R.string.final_value_format,
                             initialValue.toFloat(),
-                            temperatureUnit1.value.lowercase(),
-                            temperatureUnit2.value.lowercase(),
-                            finalValue
+                            unitPicker(context, temperatureUnit1.value),
+                            finalValue,
+                            unitPicker(context, temperatureUnit2.value)
                         )
                     )
                 },
@@ -372,6 +372,18 @@ private fun temperatureConverter(
         }
     }
     return finalValue
+}
+
+private fun unitPicker(context: Context, unit: String): String {
+    var unitToShow = ""
+
+    when (unit) {
+       context.resources.getString(R.string.celsius)  -> unitToShow = otherUnitOptions[0]
+       context.resources.getString(R.string.reaumur)  -> unitToShow = otherUnitOptions[1]
+       context.resources.getString(R.string.kelvin)  -> unitToShow = otherUnitOptions[2]
+       context.resources.getString(R.string.fahrenheit)  -> unitToShow = otherUnitOptions[3]
+    }
+    return unitToShow
 }
 
 private fun shareData(context: Context, message: String) {
