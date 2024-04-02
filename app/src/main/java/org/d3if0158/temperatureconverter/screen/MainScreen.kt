@@ -1,13 +1,17 @@
 package org.d3if0158.temperatureconverter.screen
 
+import android.content.Context
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -22,14 +26,19 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.d3if0158.temperatureconverter.R
@@ -53,6 +62,8 @@ fun MainScreen() {
 
 @Composable
 fun ScreenContent(modifier: Modifier) {
+    val context = LocalContext.current
+
     val unitOptions = listOf(
         stringResource(id = R.string.celsius),
         stringResource(id = R.string.reaumur),
@@ -80,11 +91,16 @@ fun ScreenContent(modifier: Modifier) {
         mutableStateOf("")
     }
 
+    var finalValue by rememberSaveable {
+        mutableFloatStateOf(0f)
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment =Alignment.CenterHorizontally
     ) {
         UnitSelector(isExpanded1 = isExpanded1, temperatureUnit1 = temperatureUnit1, temperatureUnit2 = temperatureUnit2, unitOptions = unitOptions)
         UnitSelector(isExpanded1 = isExpanded2, temperatureUnit1 = temperatureUnit2, temperatureUnit2 = temperatureUnit1, unitOptions = unitOptions)
@@ -98,6 +114,25 @@ fun ScreenContent(modifier: Modifier) {
             ),
             modifier = Modifier.fillMaxWidth()
         )
+        Button(onClick = {
+            finalValue = temperatureConverter(context, temperatureUnit1.value, temperatureUnit2.value, initialValue.toFloat())
+
+        },
+            modifier = Modifier.padding(top = 8.dp),
+            contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+        ) {
+            Text(text = stringResource(id = R.string.convert))
+        }
+        if (finalValue != 0f) {
+            Divider(
+                modifier = Modifier.padding(vertical = 8.dp),
+                thickness = 1.dp
+            )
+            Text(text = stringResource(id = R.string.final_value_x, initialValue.toFloat(), temperatureUnit1.value.lowercase(), temperatureUnit2.value.lowercase(), finalValue),
+                style = MaterialTheme.typography.headlineLarge,
+                textAlign = TextAlign.Center
+                )
+        }
     }
 }
 
@@ -114,7 +149,9 @@ fun UnitSelector(isExpanded1: MutableState<Boolean>, temperatureUnit1: MutableSt
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded1.value)
                 },
-                modifier = Modifier.menuAnchor().fillMaxWidth(),
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
                 enabled = false,
                 colors = OutlinedTextFieldDefaults.colors(
                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
@@ -161,6 +198,40 @@ fun UnitSelector(isExpanded1: MutableState<Boolean>, temperatureUnit1: MutableSt
             }
         }
     }
+}
+
+
+fun temperatureConverter(context: Context, initialUnit: String, finalUnit: String, initialValue: Float): Float {
+    var finalValue = 0f
+    val unitOptions = listOf<String>(
+        context.resources.getString(R.string.celsius),
+        context.resources.getString(R.string.reaumur),
+        context.resources.getString(R.string.kelvin),
+        context.resources.getString(R.string.fahrenheit)
+    )
+    when (initialUnit){
+        unitOptions[0] -> when (finalUnit) {
+            unitOptions[1] -> finalValue = initialValue / 5 * 4
+            unitOptions[2] -> finalValue = initialValue + 273
+            unitOptions[3] -> finalValue = initialValue / 5 * 9 + 32
+        }
+        unitOptions[1] -> when (finalUnit) {
+            unitOptions[0] -> finalValue = initialValue / 4 * 5
+            unitOptions[2] -> finalValue = initialValue / 4 * 5 + 273
+            unitOptions[3] -> finalValue = initialValue / 4 * 9 + 32
+        }
+        unitOptions[2]  -> when (finalUnit) {
+            unitOptions[0] -> finalValue = initialValue - 273
+            unitOptions[1] -> finalValue = (initialValue - 273) / 5 * 4
+            unitOptions[3] -> finalValue = (initialValue -273) / 5 * 9 + 32
+        }
+        unitOptions[3] -> when (finalUnit) {
+            unitOptions[0] -> finalValue = (initialValue - 32) / 9 * 5
+            unitOptions[1] -> finalValue = (initialValue - 32) / 9 * 4
+            unitOptions[2] -> finalValue = (initialValue - 32) / 9 * 5 + 273
+        }
+    }
+    return finalValue
 }
 
 @Preview(showBackground = true)
