@@ -24,6 +24,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -43,11 +44,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import org.d3if0158.temperatureconverter.R
@@ -254,12 +257,24 @@ fun UnitSelector(
             OutlinedTextField(
                 value = temperatureUnit1.value,
                 onValueChange = {},
-                label = { Text(text = label) },
+                label = {
+                    Text(
+                        text = label,
+                        style = LocalTextStyle.current.copy(
+                            fontSize = if (isError) 16.sp else LocalTextStyle.current.fontSize,
+                            color = if (isError) MaterialTheme.colorScheme.error else LocalTextStyle.current.color
+                        )
+                    )
+                },
                 isError = isError,
                 supportingText = { ErrorHint(isError = isError) },
                 readOnly = true,
                 trailingIcon = {
-                    if (isError) Icon(imageVector = Icons.Filled.Warning, contentDescription = null)
+                    if (isError) Icon(
+                        imageVector = Icons.Filled.Warning,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error
+                    )
                     else ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded1.value)
                 },
                 modifier = Modifier
@@ -267,9 +282,9 @@ fun UnitSelector(
                     .fillMaxWidth(),
                 enabled = false,
                 colors = OutlinedTextFieldDefaults.colors(
+                    disabledBorderColor = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline,
                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
                     disabledContainerColor = Color.Transparent,
-                    disabledBorderColor = MaterialTheme.colorScheme.outline,
                     disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     disabledTrailingIconColor = MaterialTheme.colorScheme.onSurface,
                     disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -329,7 +344,10 @@ fun IconPicker(isError: Boolean, unit: String) {
 @Composable
 fun ErrorHint(isError: Boolean) {
     if (isError) {
-        Text(text = stringResource(id = R.string.invalid_input))
+        Text(
+            text = stringResource(id = R.string.invalid_input),
+            style = TextStyle(color = MaterialTheme.colorScheme.error)
+        )
     }
 }
 
@@ -378,10 +396,10 @@ private fun unitPicker(context: Context, unit: String): String {
     var unitToShow = ""
 
     when (unit) {
-       context.resources.getString(R.string.celsius)  -> unitToShow = otherUnitOptions[0]
-       context.resources.getString(R.string.reaumur)  -> unitToShow = otherUnitOptions[1]
-       context.resources.getString(R.string.kelvin)  -> unitToShow = otherUnitOptions[2]
-       context.resources.getString(R.string.fahrenheit)  -> unitToShow = otherUnitOptions[3]
+        context.resources.getString(R.string.celsius) -> unitToShow = otherUnitOptions[0]
+        context.resources.getString(R.string.reaumur) -> unitToShow = otherUnitOptions[1]
+        context.resources.getString(R.string.kelvin) -> unitToShow = otherUnitOptions[2]
+        context.resources.getString(R.string.fahrenheit) -> unitToShow = otherUnitOptions[3]
     }
     return unitToShow
 }
