@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import org.d3if0158.temperatureconverter.screen.MainScreen
+import org.d3if0158.temperatureconverter.navigation.SetupNavGraph
 import org.d3if0158.temperatureconverter.ui.theme.TemperatureConverterTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
             TemperatureConverterTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    MainScreen()
+                    SetupNavGraph()
                 }
             }
         }
