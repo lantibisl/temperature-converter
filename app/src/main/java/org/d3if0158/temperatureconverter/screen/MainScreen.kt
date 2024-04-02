@@ -146,6 +146,7 @@ fun ScreenContent(modifier: Modifier) {
             temperatureUnit1 = temperatureUnit1,
             temperatureUnit2 = temperatureUnit2,
             unitOptions = unitOptions,
+            label = stringResource(id = R.string.initial_unit),
             unitError1
         )
         UnitSelector(
@@ -153,6 +154,7 @@ fun ScreenContent(modifier: Modifier) {
             temperatureUnit1 = temperatureUnit2,
             temperatureUnit2 = temperatureUnit1,
             unitOptions = unitOptions,
+            label = stringResource(id = R.string.final_unit),
             unitError2
         )
         OutlinedTextField(
@@ -242,6 +244,7 @@ fun UnitSelector(
     temperatureUnit1: MutableState<String>,
     temperatureUnit2: MutableState<String>,
     unitOptions: List<String>,
+    label: String,
     isError: Boolean
 ) {
     Box {
@@ -251,7 +254,7 @@ fun UnitSelector(
             OutlinedTextField(
                 value = temperatureUnit1.value,
                 onValueChange = {},
-                label = { Text(text = stringResource(id = R.string.initial_unit)) },
+                label = { Text(text = label) },
                 isError = isError,
                 supportingText = { ErrorHint(isError = isError) },
                 readOnly = true,
