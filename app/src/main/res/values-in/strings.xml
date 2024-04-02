@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Konverter Suhu</string>
+    <string name="about">Tentang Aplikasi</string>
+    <string name="copyright">Konverter Suhu merupakan aplikasi android yang berfungsi untuk mengonversi suatu satuan suhu ke satuan yang lain.\n\nAplikasi ini dibuat untuk kelas Mobpro 1.\n\nCopyright © 2024 Lantib Islami\nAll right reserved.</string>
+    <string name="initial_value">Nilai awal</string>
+    <string name="initial_unit">Satuan awal</string>
+    <string name="final_unit">Satuan akhir</string>
+    <string name="invalid_input">Masukan tidak boleh kosong</string>
+    <string name="convert">Konversikan</string>
+    <string name="final_value_x">Konversi dari %1$.2f %2$s ke %3$s adalah %4$.2f</string>
+    <string name="share">Bagikan</string>
+    <string name="back">Kembali</string>
+    <string name="thermometer_logo">Logo termometer</string>
+</resources>
