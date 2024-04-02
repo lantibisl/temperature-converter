@@ -1,6 +1,7 @@
 package org.d3if0158.temperatureconverter.screen
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -153,8 +154,8 @@ fun ScreenContent(modifier: Modifier) {
                         unitOptions[3] -> otherUnitOptions[3]
                         else -> ""
                     }
-                    )
-                           },
+                )
+            },
             supportingText = { ErrorHint(isError = valueError) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
@@ -196,6 +197,24 @@ fun ScreenContent(modifier: Modifier) {
                 style = MaterialTheme.typography.headlineLarge,
                 textAlign = TextAlign.Center
             )
+            Button(
+                onClick = {
+                    shareData(
+                        context = context,
+                        message = context.getString(
+                            R.string.final_value_x,
+                            initialValue.toFloat(),
+                            temperatureUnit1.value.lowercase(),
+                            temperatureUnit2.value.lowercase(),
+                            finalValue
+                        )
+                    )
+                },
+                modifier = Modifier.padding(top = 8.dp),
+                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+            ) {
+                Text(text = stringResource(id = R.string.share))
+            }
         }
     }
 }
@@ -218,7 +237,7 @@ fun UnitSelector(
                 onValueChange = {},
                 label = { Text(text = stringResource(id = R.string.initial_unit)) },
                 isError = isError,
-                supportingText = { ErrorHint(isError = isError)},
+                supportingText = { ErrorHint(isError = isError) },
                 readOnly = true,
                 trailingIcon = {
                     if (isError) Icon(imageVector = Icons.Filled.Warning, contentDescription = null)
@@ -295,7 +314,7 @@ fun ErrorHint(isError: Boolean) {
     }
 }
 
-fun temperatureConverter(
+private fun temperatureConverter(
     context: Context,
     initialUnit: String,
     finalUnit: String,
@@ -334,6 +353,16 @@ fun temperatureConverter(
         }
     }
     return finalValue
+}
+
+private fun shareData(context: Context, message: String) {
+    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, message)
+    }
+    if (shareIntent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(shareIntent)
+    }
 }
 
 @Preview(showBackground = true)
