@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -295,9 +296,11 @@ fun UnitSelector(
                 )
             )
 
-            ExposedDropdownMenu(
+            DropdownMenu(
                 expanded = isExpanded1.value,
-                onDismissRequest = { isExpanded1.value = false }) {
+                onDismissRequest = { isExpanded1.value = false },
+                modifier = Modifier.exposedDropdownSize()
+            ) {
                 val temperatureUnitIndex2 = unitOptions.indexOf(temperatureUnit2.value)
                 val filteredUnitOptions2 =
                     unitOptions.filterIndexed { index, _ -> index != temperatureUnitIndex2 }
