@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Konverter Suhu</string>
     <string name="about">Tentang Aplikasi</string>
-    <string name="copyright">Konverter Suhu merupakan aplikasi android yang berfungsi untuk mengonversi suatu satuan suhu ke satuan yang lain.\n\nAplikasi ini dibuat untuk kelas Mobpro 1.\n\nCopyright © 2024 Lantib Islami\nAll right reserved.</string>
+    <string name="copyright">Konverter Suhu merupakan aplikasi android yang berfungsi untuk mengonversi suatu satuan suhu ke satuan yang lain.\n\nAplikasi ini dibuat untuk kelas Mobile Programming 1.\n\nCopyright © 2024 Lantib Islami\nAll right reserved.</string>
     <string name="initial_value">Nilai awal</string>
     <string name="initial_unit">Satuan awal</string>
     <string name="final_unit">Satuan akhir</string>
